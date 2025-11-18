@@ -19,32 +19,7 @@
       --white: #ffffff;
     }
 
-    /* Background video */
-    .video-background {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      overflow: hidden;
-    }
-
-    .video-background video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Blur overlay */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: -1;
-      backdrop-filter: blur(3px);
-    }
-
+    /* Background Image */
     body {
       margin: 0;
       padding: 0;
@@ -54,6 +29,20 @@
       align-items: center;
       min-height: 100vh;
       color: white;
+      background-image: url("./bg2.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    /* Dark Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: -1;
+      backdrop-filter: blur(1.9px);
     }
 
     .form-container {
@@ -62,8 +51,8 @@
       padding: 35px;
       background: rgba(255, 255, 255, 0.07);
       border-radius: 18px;
-      backdrop-filter: blur(10px);
-      border-top: 4px solid var(--primary-start);
+      backdrop-filter: blur(15px);
+      /* border-top: 4px solid var(--primary-start); */
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
       animation: fadeIn 0.8s ease;
     }
@@ -75,10 +64,10 @@
 
     label {
       font-weight: 500;
-      font-size: 14px;
+      font-size: 18px;
       margin-bottom: 6px;
       display: block;
-      color: var(--light-text-color);
+      color: black;
     }
 
     .form-input, select {
@@ -87,14 +76,14 @@
       border-radius: 12px;
       border: 2px solid rgba(255, 255, 255, 0.4);
       background: rgba(255, 255, 255, 0.08);
-      color: white;
+      color: black;
       font-size: 15px;
       transition: all 0.3s ease;
     }
 
     .form-input:focus, select:focus {
       border-color: var(--primary-end);
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0);
       outline: none;
     }
 
@@ -115,12 +104,56 @@
     .btn-submit:hover {
       transform: translateY(-3px);
     }
-  
+
     .logo-wrapper img {
       width: 80%;
       max-width: 260px;
-      margin-bottom: 20px;
+      margin-bottom: 0px;
       border-radius: 12px;
+    }
+
+
+    /* Custom Multi-Select Dropdown */
+    .multi-dropdown {
+      width: 90%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+      position: relative;
+      font-size: 15px;
+      color: rgb(2, 1, 1);
+    }
+
+    .multi-dropdown .dropdown-selected {
+      font-weight: 500;
+    }
+
+    .multi-dropdown .dropdown-list {
+      display: none;
+      flex-direction: column;
+      background: white;
+      color: black;
+      border-radius: 12px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    .multi-dropdown.open .dropdown-list {
+      display: flex;
+    }
+
+    .multi-dropdown .dropdown-list label {
+      margin-bottom: 8px;
+      cursor: pointer;
     }
 
   </style>
@@ -128,16 +161,10 @@
 
 <body>
 
-  <!-- VIDEO BACKGROUND -->
-  <div class="video-background">
-    <video src="./design.mp4" autoplay loop muted></video>
-  </div>
-
-  <!-- FORM CARD -->
   <div class="form-container">
 
     <div class="logo-wrapper" style="text-align: center;">
-      <img src="./logo.PNG" alt="Logo">
+      <img src="./logo1.jpg" alt="Logo">
     </div>
 
     <form id="submit-to-google-sheet">
@@ -167,16 +194,23 @@
         <input class="form-input" name="role">
       </div>
 
+      <!-- CUSTOM DROPDOWN FIELD -->
       <div class="form-group">
         <label>Interested Products:</label>
-        <select class="form-input" name="interested_products[]" id="interested_products" multiple>
-          <option value="CropEye">CropEye</option>
-          <option value="Crop Area Estimation">Crop Area Estimation</option>
-          <option value="Satellite Based Topographic Services">Satellite Based Topographic Services</option>
-          <option value="Crop Insurance & Surveillance">Crop Insurance & Surveillance</option>
-          <option value="FarmArm Message">FarmArm Message</option>
-          <option value="Other">Other</option>
-        </select>
+
+        <div class="multi-dropdown" id="productDropdown">
+          <div class="dropdown-selected">Select Products</div>
+          <div class="dropdown-list">
+            <label><input type="checkbox" value="CropEye"> CropEye</label>
+            <label><input type="checkbox" value="Crop Area Estimation"> Crop Area Estimation</label>
+            <label><input type="checkbox" value="Satellite Based Topographic Services"> Satellite Based Topographic Services</label>
+            <label><input type="checkbox" value="Crop Insurance & Surveillance"> Crop Insurance & Surveillance</label>
+            <label><input type="checkbox" value="FarmArm Message"> FarmArm Message</label>
+            <label><input type="checkbox" value="Other"> Other</label>
+          </div>
+        </div>
+
+        <input type="hidden" name="interested_products" id="hiddenProducts">
       </div>
 
       <div class="form-group" id="other-field" style="display:none;">
@@ -187,6 +221,7 @@
       <div class="form-group">
         <label>Card Attachment:</label>
         <select class="form-input" name="card_attachment">
+          <option value="select">Select</option>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
@@ -203,28 +238,47 @@
   </div>
 
 
-  <!-- JS CODE HANDLING FORM SUBMISSION -->
+  <!-- JAVASCRIPT -->
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbyAVvdzXEOjBdzTwx0Q9d1-RxXcIl4Pi8Rc9gKdv0zMAjATmqCUtZ0n7BNhi4M40ko/exec"; // 🔗 replace with your Web App URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyAVvdzXEOjBdzTwx0Q9d1-RxXcIl4Pi8Rc9gKdv0zMAjATmqCUtZ0n7BNhi4M40ko/exec";
     const form = document.getElementById("submit-to-google-sheet");
 
-    // Show "Other" field dynamically
-    document.getElementById("interested_products").addEventListener("change", function () {
-      const selected = Array.from(this.selectedOptions).map(o => o.value);
-      document.getElementById("other-field").style.display = selected.includes("Other") ? "block" : "none";
+    /* Custom dropdown logic */
+    const dropdown = document.getElementById("productDropdown");
+    const dropdownList = dropdown.querySelector(".dropdown-list");
+    const dropdownSelected = dropdown.querySelector(".dropdown-selected");
+    const hiddenProducts = document.getElementById("hiddenProducts");
+
+    dropdown.addEventListener("click", () => {
+      dropdown.classList.toggle("open");
     });
 
+    dropdownList.addEventListener("change", () => {
+      const checkedValues = Array.from(
+        dropdownList.querySelectorAll("input[type='checkbox']:checked")
+      ).map(input => input.value);
+
+      dropdownSelected.textContent =
+        checkedValues.length > 0 ? checkedValues.join(", ") : "Select Products";
+
+      hiddenProducts.value = checkedValues.join(", ");
+
+      document.getElementById("other-field").style.display =
+        checkedValues.includes("Other") ? "block" : "none";
+    });
+
+    document.addEventListener("click", function(e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove("open");
+      }
+    });
+
+
+    /* Form Submission */
     form.addEventListener("submit", e => {
       e.preventDefault();
 
       const formData = new FormData(form);
-
-      // Convert multi-select to CSV string
-      const products = Array.from(
-        document.getElementById("interested_products").selectedOptions
-      ).map(o => o.value);
-
-      formData.set("interested_products", products.join(", "));
 
       fetch(scriptURL, { method: "POST", body: formData })
         .then(response => {
@@ -235,7 +289,10 @@
             confirmButtonColor: "#6a5af9"
           });
           form.reset();
+          dropdownSelected.textContent = "Select Products";
+          hiddenProducts.value = "";
           document.getElementById("other-field").style.display = "none";
+          dropdownList.querySelectorAll("input[type='checkbox']").forEach(c => c.checked = false);
         })
         .catch(error => {
           Swal.fire({
