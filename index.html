@@ -1,272 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Innovative Pure CSS Form with Background Image</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Form</title>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-    <style>
-      :root {
-        /* Color Palette */
-        --primary-start: #6a5af9;
-        --primary-end: #4f8cff;
-        --text-color: #343a40;
-        --light-text-color: #f0f0f0; /* New: for text over transparent background */
-        --secondary-bg: rgba(255, 255, 255, 0.1); /* Slightly visible input background */
-        --white: #ffffff;
-        --error-color: #dc3545;
-        --success-color: #28a745;
-      }
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-      body {
-        /* Background Image Properties */
-        background-image: url('bg1.png'); /* Dynamic random image */
-        background-size: cover; /* Cover the entire viewport */
-        background-position: center center; /* Center the image */
-        background-attachment: fixed; /* Keep image fixed when scrolling (if content overflows) */
-        background-repeat: no-repeat; /* Do not repeat the image */
+  <style>
+    :root {
+      --primary-start: #6a5af9;
+      --primary-end: #4f8cff;
+      --light-text-color: #e9e9e9;
+      --white: #ffffff;
+    }
 
-        font-family: "Poppins", sans-serif;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        margin: 0;
-        position: relative; /* Needed for the overlay */
-      }
+    /* Background video */
+    .video-background {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
 
-      /* Optional: Overlay for better readability of text on background image */
-      body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.4); /* Dark semi-transparent overlay */
-        z-index: -1; /* Place behind form */
-      }
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-      .form-container {
-        width: 100%;
-        max-width: 480px;
-        padding-top: 0px;
-        background: rgba(255, 255, 255, 0); /* Make the form background completely transparent */
-        padding-left: 40px;
-        padding-bottom: 40px;
-        padding-bottom: 40px;
-        border-radius: 20px;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* Adjust shadow for transparency */
-        border-top: 5px solid var(--primary-start);
-        animation: fadeIn 1s ease-in-out;
-        backdrop-filter: blur(5px); /* Optional: Add a subtle blur effect to the background visible through the form */
-      }
+    /* Blur overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: -1;
+      backdrop-filter: blur(3px);
+    }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: white;
+    }
 
-      h4 {
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 30px;
-        color: var(--white); /* White title for better contrast */
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Text shadow for readability */
-      }
+    .form-container {
+      width: 100%;
+      max-width: 500px;
+      padding: 35px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      border-top: 4px solid var(--primary-start);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+      animation: fadeIn 0.8s ease;
+    }
 
-      .form-group {
-        margin-bottom: 25px;
-        position: relative;
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-      label {
-        font-weight: 600;
-        color: var(--light-text-color); /* Lighter label for contrast */
-        margin-bottom: 8px;
-        display: block;
-        font-size: 14px;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Text shadow for readability */
-      }
+    label {
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: block;
+      color: var(--light-text-color);
+    }
 
-      .form-input {
-        width: 100%;
-        padding: 14px 18px;
-        font-size: 16px;
-        border-radius: 12px;
-        border: 2px solid rgba(255, 255, 255, 0.3); /* Lighter border for inputs */
-        background-color: var(--secondary-bg); /* Semi-transparent input background */
-        color: var(--white); /* White text in inputs */
-        transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
-        box-sizing: border-box;
-      }
+    .form-input, select {
+      width: 90%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
 
-      .form-input::placeholder {
-        color: rgba(255, 255, 255, 0.7); /* Lighter placeholder text */
-      }
+    .form-input:focus, select:focus {
+      border-color: var(--primary-end);
+      background: rgba(255, 255, 255, 0.2);
+      outline: none;
+    }
 
-      .form-input:focus {
-        outline: none;
-        background-color: rgba(255, 255, 255, 0.2); /* Slightly more opaque on focus */
-        border-color: var(--primary-end); /* Maintain primary color for focus */
-        box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.3); /* Adjust shadow for transparency */
-      }
-      
-      textarea.form-input {
-        resize: vertical;
-        min-height: 120px;
-        padding-top: 18px;
-      }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      border-radius: 15px;
+      font-size: 17px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+      border: none;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
 
-      .btn-submit {
-        display: block;
-        width: 100%;
-        background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
-        color: var(--white);
-        border: none;
-        padding: 15px 30px;
-        font-size: 17px;
-        font-weight: 600;
-        border-radius: 15px;
-        cursor: pointer;
-        transition: 0.3s ease, transform 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        box-shadow: 0 5px 15px rgba(1, 255, 35, 0.671);
-        margin-top: 20px;
-      }
+    .btn-submit:hover {
+      transform: translateY(-3px);
+    }
+  
+    .logo-wrapper img {
+      width: 80%;
+      max-width: 260px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+    }
 
-      .btn-submit:hover {
-        background: linear-gradient(135deg, var(--primary-end), var(--primary-start));
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgb(1, 47, 134);
-      }
+  </style>
+</head>
 
-      .btn-submit:active {
-        transform: translateY(0);
-        box-shadow: 0 5px 15px rgba(75, 237, 78, 0.74);
-      }
-      
-      .btn-submit:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-      }
-    </style>
-  </head>
+<body>
 
-  <body>
-    <div class="form-container">
-      <!-- <h1 a>✉️ Crop-Eye</h1> -->
+  <!-- VIDEO BACKGROUND -->
+  <div class="video-background">
+    <video src="./design.mp4" autoplay loop muted></video>
+  </div>
 
-      <div style="display: flex; align-items: center; justify-content: center;">
-        <img src="./logo.PNG" alt="Crop-Eye" height="150px" width="90%">
-      </div>
-      <form id="submit-to-google-sheet">
-        <div class="form-group">
-          <label for="name">Your Name:</label>
-          <input
-            class="form-input"
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Full Name"
-            required
-          />
-        </div>
+  <!-- FORM CARD -->
+  <div class="form-container">
 
-        <div class="form-group">
-          <label for="email">Email Address:</label>
-          <input
-            class="form-input"
-            type="email"
-            name="email"
-            id="email"
-            placeholder="abc123@gmail.com"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="contact_number">Contact Number :</label>
-          <input
-            class="form-input"
-            type="text"
-            name="contact_number"
-            id="contact_number"
-            placeholder="+91"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="message">Share Your Experience With Planet-Eye</label>
-          <textarea
-            class="form-input"
-            name="message"
-            id="message"
-            rows="4"
-            placeholder="Type your message here..."
-            required
-          ></textarea>
-        </div>
-
-        <button type="submit" class="btn-submit">
-          Submit
-        </button>
-      </form>
+    <div class="logo-wrapper" style="text-align: center;">
+      <img src="./logo.PNG" alt="Logo">
     </div>
 
-    <script>
-      const scriptURL =
-        "https://script.google.com/macros/s/AKfycbxRcT7GQlAyev1ky-yo4V6yQal5BKkxRn0ZUxkHLoCsbHQ92M4OUbN5DyfiW0x3tCQ/exec";
+    <form id="submit-to-google-sheet">
 
-      const form = document.forms["submit-to-google-sheet"];
-      const submitButton = form.querySelector('.btn-submit');
+      <div class="form-group">
+        <label>Full Name*:</label>
+        <input class="form-input" name="name" required>
+      </div>
 
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
+      <div class="form-group">
+        <label>Email*:</label>
+        <input class="form-input" type="email" name="email" required>
+      </div>
 
-        submitButton.innerHTML = 'Sending...';
-        submitButton.disabled = true;
+      <div class="form-group">
+        <label>Contact Number*:</label>
+        <input class="form-input" name="contact_number" required>
+      </div>
 
-        let formData = new FormData(form);
+      <div class="form-group">
+        <label>Industry Name:</label>
+        <input class="form-input" name="industry_name">
+      </div>
 
-        fetch(scriptURL, {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            swal("Success!", "Your message was sent successfully!", "success");
-            form.reset();
-          })
-          .catch((error) => {
-            console.error('Submission Error:', error);
-            swal("Error", "Something went wrong. Try again later!", "error");
-          })
-          .finally(() => {
-            submitButton.innerHTML = 'Submit';
-            submitButton.disabled = false;
+      <div class="form-group">
+        <label>Role:</label>
+        <input class="form-input" name="role">
+      </div>
+
+      <div class="form-group">
+        <label>Interested Products:</label>
+        <select class="form-input" name="interested_products[]" id="interested_products" multiple>
+          <option value="CropEye">CropEye</option>
+          <option value="Crop Area Estimation">Crop Area Estimation</option>
+          <option value="Satellite Based Topographic Services">Satellite Based Topographic Services</option>
+          <option value="Crop Insurance & Surveillance">Crop Insurance & Surveillance</option>
+          <option value="FarmArm Message">FarmArm Message</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="other-field" style="display:none;">
+        <label>Other (please specify):</label>
+        <input class="form-input" name="other_interest">
+      </div>
+
+      <div class="form-group">
+        <label>Card Attachment:</label>
+        <select class="form-input" name="card_attachment">
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Company Website:</label>
+        <input class="form-input" name="company_website">
+      </div>
+
+      <button class="btn-submit">Submit</button>
+
+    </form>
+  </div>
+
+
+  <!-- JS CODE HANDLING FORM SUBMISSION -->
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyAVvdzXEOjBdzTwx0Q9d1-RxXcIl4Pi8Rc9gKdv0zMAjATmqCUtZ0n7BNhi4M40ko/exec"; // 🔗 replace with your Web App URL
+    const form = document.getElementById("submit-to-google-sheet");
+
+    // Show "Other" field dynamically
+    document.getElementById("interested_products").addEventListener("change", function () {
+      const selected = Array.from(this.selectedOptions).map(o => o.value);
+      document.getElementById("other-field").style.display = selected.includes("Other") ? "block" : "none";
+    });
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      // Convert multi-select to CSV string
+      const products = Array.from(
+        document.getElementById("interested_products").selectedOptions
+      ).map(o => o.value);
+
+      formData.set("interested_products", products.join(", "));
+
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(response => {
+          Swal.fire({
+            title: "Success!",
+            text: "Your form has been submitted successfully.",
+            icon: "success",
+            confirmButtonColor: "#6a5af9"
           });
-      });
-    </script>
-  </body>
+          form.reset();
+          document.getElementById("other-field").style.display = "none";
+        })
+        .catch(error => {
+          Swal.fire({
+            title: "Error!",
+            text: "Something went wrong. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#d33"
+          });
+        });
+    });
+  </script>
+
+</body>
 </html>
