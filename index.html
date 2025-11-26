@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Form</title>
+  <title>Registration Form</title>
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -13,10 +13,8 @@
 
   <style>
     :root {
-      --primary-start: #6a5af9;
-      --primary-end: #4f8cff;
-      --light-text-color: #e9e9e9;
-      --white: #ffffff;
+      --primary-start: #4f8cff;
+      --primary-end: #6aa8ff;
     }
 
     /* Background Image */
@@ -29,10 +27,11 @@
       align-items: center;
       min-height: 100vh;
       color: white;
-      background-image: url("./bg2.png");
-      background-size: contain;
+      background-image: url("./bg1.png");
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+      position: relative;
     }
 
     /* Dark Overlay */
@@ -42,17 +41,17 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: -1;
-      backdrop-filter: blur(1.9px);
+      backdrop-filter: blur(2.5px);
     }
 
+    /* Form Container (Glass Effect) */
     .form-container {
       width: 100%;
       max-width: 500px;
       padding: 35px;
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.10);
       border-radius: 18px;
       backdrop-filter: blur(15px);
-      /* border-top: 4px solid var(--primary-start); */
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
       animation: fadeIn 0.8s ease;
     }
@@ -70,27 +69,28 @@
       color: black;
     }
 
-    .form-input, select {
-      width: 90%;
+    .form-input {
+      width: 100%;
       padding: 12px;
       border-radius: 12px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(0,0,0,0.2);
+      background: rgba(255, 255, 255, 0.4);
       color: black;
       font-size: 15px;
-      transition: all 0.3s ease;
+      margin-bottom: 16px;
+      outline: none;
+      transition: 0.3s ease;
     }
 
-    .form-input:focus, select:focus {
-      border-color: var(--primary-end);
-      background: rgba(255, 255, 255, 0);
-      outline: none;
+    .form-input:focus {
+      border-color: var(--primary-start);
+      background: rgba(255, 255, 255, 0.7);
     }
 
     .btn-submit {
       width: 100%;
       padding: 14px;
-      margin-top: 20px;
+      margin-top: 15px;
       border-radius: 15px;
       font-size: 17px;
       font-weight: 600;
@@ -98,208 +98,78 @@
       background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
       border: none;
       cursor: pointer;
-      transition: transform 0.25s ease;
+      transition: 0.25s ease;
     }
 
     .btn-submit:hover {
       transform: translateY(-3px);
     }
 
+    /* Logo styling */
     .logo-wrapper img {
-      width: 80%;
-      max-width: 260px;
-      margin-bottom: 0px;
-      border-radius: 12px;
-    }
-
-
-    /* Custom Multi-Select Dropdown */
-    .multi-dropdown {
       width: 90%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      max-width: 191px;
+      margin-bottom: 20px;
       border-radius: 12px;
-      padding: 12px;
-      cursor: pointer;
-      position: relative;
-      font-size: 15px;
-      color: rgb(2, 1, 1);
     }
-
-    .multi-dropdown .dropdown-selected {
-      font-weight: 500;
-    }
-
-    .multi-dropdown .dropdown-list {
-      display: none;
-      flex-direction: column;
-      background: white;
-      color: black;
-      border-radius: 12px;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 50px;
-      padding: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      max-height: 220px;
-      overflow-y: auto;
-      z-index: 10;
-    }
-
-    .multi-dropdown.open .dropdown-list {
-      display: flex;
-    }
-
-    .multi-dropdown .dropdown-list label {
-      margin-bottom: 8px;
-      cursor: pointer;
-    }
-
   </style>
 </head>
 
 <body>
 
   <div class="form-container">
-
+    <!-- <h2 style="text-align:center; margin-bottom:20px; color:black;">Registration Form</h2> -->
     <div class="logo-wrapper" style="text-align: center;">
-      <img src="./logo1.jpg" alt="Logo">
+      <img src="./Logo.png" alt="Logo">
     </div>
+
+    
 
     <form id="submit-to-google-sheet">
 
-      <div class="form-group">
-        <label>Full Name*:</label>
-        <input class="form-input" name="name" required>
-      </div>
+      <label>Full Name*:</label>
+      <input class="form-input" name="name" required>
 
-      <div class="form-group">
-        <label>Email*:</label>
-        <input class="form-input" type="email" name="email" required>
-      </div>
+      <label>Email*:</label>
+      <input class="form-input" type="email" name="email" required>
 
-      <div class="form-group">
-        <label>Contact Number*:</label>
-        <input class="form-input" name="contact_number" required>
-      </div>
+      <label>Contact Number*:</label>
+      <input class="form-input" name="contact" required>
 
-      <div class="form-group">
-        <label>Industry Name:</label>
-        <input class="form-input" name="industry_name">
-      </div>
+      <label>Company Name:</label>
+      <input class="form-input" name="company">
 
-      <div class="form-group">
-        <label>Role:</label>
-        <input class="form-input" name="role">
-      </div>
-
-      <!-- CUSTOM DROPDOWN FIELD -->
-      <div class="form-group">
-        <label>Interested Products:</label>
-
-        <div class="multi-dropdown" id="productDropdown">
-          <div class="dropdown-selected">Select Products</div>
-          <div class="dropdown-list">
-            <label><input type="checkbox" value="CropEye"> CropEye</label>
-            <label><input type="checkbox" value="Crop Area Estimation"> Crop Area Estimation</label>
-            <label><input type="checkbox" value="Satellite Based Topographic Services"> Satellite Based Topographic Services</label>
-            <label><input type="checkbox" value="Crop Insurance & Surveillance"> Crop Insurance & Surveillance</label>
-            <label><input type="checkbox" value="FarmArm Message"> FarmArm Message</label>
-            <label><input type="checkbox" value="Other"> Other</label>
-          </div>
-        </div>
-
-        <input type="hidden" name="interested_products" id="hiddenProducts">
-      </div>
-
-      <div class="form-group" id="other-field" style="display:none;">
-        <label>Other (please specify):</label>
-        <input class="form-input" name="other_interest">
-      </div>
-
-      <div class="form-group">
-        <label>Card Attachment:</label>
-        <select class="form-input" name="card_attachment">
-          <option value="select">Select</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Company Website:</label>
-        <input class="form-input" name="company_website">
-      </div>
+      <label>Designation:</label>
+      <input class="form-input" name="designation">
 
       <button class="btn-submit">Submit</button>
 
     </form>
   </div>
 
-
-  <!-- JAVASCRIPT -->
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzcB5WqGhYY0CT6pH68EeQj_n606bKj-NzGWI2LBVjkWvIqZa7HOuEPTa-U9t0dcjQ/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycby_g2bvBfDUhZvyhIsvCSUUEJM2ruVAtOJajXxNlMYAd-_sWKmvuN6UIgy5QLNhzfT9jQ/exec";
     const form = document.getElementById("submit-to-google-sheet");
 
-    /* Custom dropdown logic */
-    const dropdown = document.getElementById("productDropdown");
-    const dropdownList = dropdown.querySelector(".dropdown-list");
-    const dropdownSelected = dropdown.querySelector(".dropdown-selected");
-    const hiddenProducts = document.getElementById("hiddenProducts");
-
-    dropdown.addEventListener("click", () => {
-      dropdown.classList.toggle("open");
-    });
-
-    dropdownList.addEventListener("change", () => {
-      const checkedValues = Array.from(
-        dropdownList.querySelectorAll("input[type='checkbox']:checked")
-      ).map(input => input.value);
-
-      dropdownSelected.textContent =
-        checkedValues.length > 0 ? checkedValues.join(", ") : "Select Products";
-
-      hiddenProducts.value = checkedValues.join(", ");
-
-      document.getElementById("other-field").style.display =
-        checkedValues.includes("Other") ? "block" : "none";
-    });
-
-    document.addEventListener("click", function(e) {
-      if (!dropdown.contains(e.target)) {
-        dropdown.classList.remove("open");
-      }
-    });
-
-
-    /* Form Submission */
     form.addEventListener("submit", e => {
       e.preventDefault();
 
       const formData = new FormData(form);
 
       fetch(scriptURL, { method: "POST", body: formData })
-        .then(response => {
+        .then(res => {
           Swal.fire({
             title: "Success!",
-            text: "Your form has been submitted successfully.",
+            text: "Your form has been submitted successfully. Also Check Mails,Trash,Spams, Too....",
             icon: "success",
-            confirmButtonColor: "#6a5af9"
           });
           form.reset();
-          dropdownSelected.textContent = "Select Products";
-          hiddenProducts.value = "";
-          document.getElementById("other-field").style.display = "none";
-          dropdownList.querySelectorAll("input[type='checkbox']").forEach(c => c.checked = false);
         })
-        .catch(error => {
+        .catch(err => {
           Swal.fire({
             title: "Error!",
             text: "Something went wrong. Please try again.",
             icon: "error",
-            confirmButtonColor: "#d33"
           });
         });
     });
